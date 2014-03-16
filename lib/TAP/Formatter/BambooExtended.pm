@@ -181,30 +181,21 @@ This module is based on TAP::Formatter::Bamboo by Piotr Piatkowski
 
 =over
 
-=item
+=item Resulting XML is saved as one output file per source test script.
 
-* resulting XML is saved in one output file per source test file
+=item Each test gets its own result line in the JUnit output rather than
+grouping all the tests from one test script into one result.
 
-=item
+=item A summary test result is appended to indicate if there were any problems
+with the test script itself outside of individual tests.
 
-* each test gets its own result line in the JUnit output rather than grouping
-all the tests from one test script into one line
-
-=item
-
-* a summary test result is appended to indicate if there were any problems with
-the test script itself outside of individual tests
-
-=item
-
-* output of failed tests is attached to the test that failed AND the test
-script itself
-
-Each test script will create one JUnit compatible test result file. The test
-result file names will match the full path and file name of the test script. By
-default these files are placed in a directory called C<prove_db> that is
-created in your current working directory. This can be changed by setting the
-environment variable C<FORMATTER_OUTPUT_DIR> to a relative or absolute path.
+=item Output of failed tests are attached to the test that failed AND the test
+script itself. Each test script will create one JUnit compatible test result
+file. The test result file names will match the full path and file name of the
+test script. By default these files are created in a directory called
+C<prove_db> that is created in your current working directory. This can be
+changed by setting the environment variable C<FORMATTER_OUTPUT_DIR> to a
+relative or absolute path.
 
 =back
 
