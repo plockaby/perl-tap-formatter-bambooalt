@@ -2,6 +2,6 @@
 <testsuite name="t-internal_tests-bad_chars_test" errors="0" failures="0" tests="3" time="TEST_TIME" skipped="0">
   <testcase name="t/internal_tests/bad_chars.test"/>
   <testcase name="- Control chars &amp;#1;&amp;#2;&amp;#3;"/>
-  <testcase name="- Weird control chars &amp;#31;&amp;#29;&amp;#30;"/>
-  <testcase name="- Unicode Þϴ쌇"/>
+  <testcase name="- Weird control chars &amp;#127;&amp;#31;&amp;#29;&amp;#30;"/>
+  <testcase name="- Unicode &amp;Atilde;&amp;#158;&amp;Iuml;&amp;acute;&amp;igrave;&amp;#140;&amp;#135;"/>
 </testsuite>

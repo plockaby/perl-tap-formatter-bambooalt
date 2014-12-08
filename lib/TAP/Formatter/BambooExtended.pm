@@ -6,7 +6,7 @@ use warnings;
 use parent qw(TAP::Formatter::Console);
 
 use XML::LibXML;
-use Encode qw(:all);
+use HTML::Entities qw(encode_entities);
 use Cwd ();
 use File::Path ();
 
@@ -87,11 +87,8 @@ sub _save_results {
         # give it a name if there isn't one
         my $testcase_name = $result->description();
 
-        # replace invalid characters
-        $testcase_name =~ s/([^\x09\x0A\x0D\x20-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}])/"&#".ord($1).";"/ego;
-
-        # replace malformed utf8 data
-        $testcase_name = decode("UTF-8", $testcase_name) unless is_utf8($testcase_name);
+        # clean up invalid characters
+        $testcase_name = encode_entities($testcase_name);
 
         # trim trailing/leading space
         $testcase_name =~ s/^\s+|\s+$//g;
