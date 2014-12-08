@@ -11,15 +11,12 @@ WriteMakefile(
     'VERSION_FROM'  => 'lib/TAP/Formatter/BambooExtended.pm',
     'ABSTRACT_FROM' => 'lib/TAP/Formatter/BambooExtended.pm',
     'PREREQ_PM'     => {
-       'Test::XML'        => 0,
-       'MooseX::NonMoose' => '0.2',
-       'TAP::Harness'     => '3.2',
-       'Encode'           => '2.42',
-       'Test::More'       => 0,
-       'File::Temp'       => 0,
-       'XML::LibXML'      => '2',
-       'Moose'            => '2',
-       'File::Slurp'      => 0
+       'Test::XML'    => '0',
+       'TAP::Harness' => '3.2',
+       'Encode'       => '2.42',
+       'Test::More'   => '0',
+       'XML::LibXML'  => '2',
+       'File::Slurp'  => '0',
     },
     'INSTALLDIRS'   => (($] < 5.011) ? 'perl' : 'site'),
 

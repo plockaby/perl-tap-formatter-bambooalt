@@ -1,7 +1,10 @@
 package TAP::Formatter::BambooExtended;
 
-use Moose;
-use MooseX::NonMoose;
+use strict;
+use warnings;
+
+use parent qw(TAP::Formatter::Console);
+
 use XML::LibXML;
 use Encode qw(:all);
 use Cwd ();
@@ -9,24 +12,29 @@ use File::Path ();
 
 use TAP::Formatter::BambooExtended::Session;
 
-extends qw(
-    TAP::Formatter::Console
-);
+our $VERSION = '1.01';
 
-our $VERSION = '1.00';
+sub _initialize {
+    my ($self, $arg_for) = @_;
 
-has _test_results => (
-    is      => 'rw',
-    isa     => 'ArrayRef',
-    default => sub { [] },
-);
+    # variables that we use for ourselves
+    $self->{'_test_results'} = [];
+
+    return $self->SUPER::_initialize($arg_for || {});
+}
+
+sub add_test_results {
+    my ($self, $results) = @_;
+    push(@{$self->{'_test_results'}}, $results) if defined($results);
+    return;
+}
 
 sub open_test {
     my ($self, $test, $parser) = @_;
     my $session = TAP::Formatter::BambooExtended::Session->new({
-        name            => $test,
-        formatter       => $self,
-        parser          => $parser,
+        'name'      => $test,
+        'formatter' => $self,
+        'parser'    => $parser,
     });
     return $session;
 }
@@ -38,8 +46,8 @@ sub summary {
     $output_path = $ENV{'FORMATTER_OUTPUT_DIR'} if defined($ENV{'FORMATTER_OUTPUT_DIR'});
     File::Path::make_path($output_path) unless (-e $output_path);
 
-    for my $test (@{$self->_test_results}) {
-        my $test_name = $test->{description};
+    for my $test (@{$self->{'_test_results'}}) {
+        my $test_name = $test->{'description'};
         $test_name =~ s/^[\.\/\\]+//g;
         $test_name =~ s/\/|\\/-/g;
         $test_name =~ s/\./_/g;
@@ -56,7 +64,7 @@ sub _save_results {
     my ($self, $test, $file_path) = @_;
     my $doc = XML::LibXML::Document->createDocument('1.0', 'UTF-8');
 
-    my $testsuite_name = $test->{description};
+    my $testsuite_name = $test->{'description'};
     $testsuite_name =~ s/^[\.\/\\]+//g;
     $testsuite_name =~ s/\/|\\/-/g;
     $testsuite_name =~ s/\./_/g;
@@ -64,10 +72,10 @@ sub _save_results {
 
     my $suite = $doc->createElement('testsuite');
     $suite->setAttribute('name', $testsuite_name);
-    $suite->setAttribute('errors', $test->{parse_errors});
-    $suite->setAttribute('failures', $test->{failed});
-    $suite->setAttribute('tests', $test->{tests_run});
-    $suite->setAttribute('time', $test->{end_time} - $test->{start_time});
+    $suite->setAttribute('errors', $test->{'parse_errors'});
+    $suite->setAttribute('failures', $test->{'failed'});
+    $suite->setAttribute('tests', $test->{'tests_run'});
+    $suite->setAttribute('time', $test->{'end_time'} - $test->{'start_time'});
 
     my $skipped = 0;
     for my $result (@{$test->{'results'}}) {
@@ -127,11 +135,12 @@ sub _save_results {
     $suite->setAttribute('skipped', $skipped);
     $doc->setDocumentElement($suite);
     $doc->toFile($file_path, 2);
+
     return;
 }
 
 sub _fail_reasons {
-    my ($result) = @_;
+    my $result = shift;
     my @reasons = ();
 
     if (!$result->is_actual_ok()) {
@@ -159,16 +168,16 @@ TAP::Formatter::BambooExtended - Harness output delegate for Atlassian's Bamboo 
 
 On the command line, with F<prove>:
 
-  prove --formatter TAP::Formatter::BambooExtended ...
+    prove --formatter TAP::Formatter::BambooExtended ...
 
 Or, in your own scripts:
 
-  use TAP::Harness;
-  my $harness = TAP::Harness->new({
-      formatter_class => 'TAP::Formatter::BambooExtended',
-      merge => 1,
-  });
-  $harness->runtests(@tests);
+    use TAP::Harness;
+    my $harness = TAP::Harness->new({
+        formatter_class => 'TAP::Formatter::BambooExtended',
+        merge => 1,
+    });
+    $harness->runtests(@tests);
 
 =head1 DESCRIPTION
 

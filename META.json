@@ -13,22 +13,20 @@
    "prereqs" : {
       "build" : {
          "requires" : {
+            "ExtUtils::MakeMaker" : "0"
             "File::Slurp" : "0",
-            "File::Temp" : "0",
             "Test::More" : "0",
             "Test::XML" : "0"
          }
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0"
+            "ExtUtils::MakeMaker" : "0"
          }
       },
       "runtime" : {
          "requires" : {
             "Encode" : "2.42",
-            "Moose" : "2",
-            "MooseX::NonMoose" : "0.2",
             "TAP::Harness" : "3.2",
             "XML::LibXML" : "2"
          }
@@ -37,11 +35,11 @@
    "provides" : {
       "TAP::Formatter::BambooExtended" : {
          "file" : "lib/TAP/Formatter/BambooExtended.pm",
-         "version" : "1.00"
+         "version" : "1.01"
       },
       "TAP::Formatter::BambooExtended::Session" : {
          "file" : "lib/TAP/Formatter/BambooExtended/Session.pm",
-         "version" : 0
+         "version" : "1.01"
       }
    },
    "release_status" : "stable",
@@ -50,5 +48,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "1.00"
+   "version" : "1.01"
 }
