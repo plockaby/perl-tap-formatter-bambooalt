@@ -28,7 +28,8 @@
          "requires" : {
             "Encode" : "2.42",
             "TAP::Harness" : "3.2",
-            "XML::LibXML" : "2"
+            "XML::LibXML" : "2",
+            "HTML::Parser" : "0"
          }
       }
    },

@@ -15,6 +15,7 @@ WriteMakefile(
        'TAP::Harness' => '3.2',
        'Encode'       => '2.42',
        'Test::More'   => '0',
+       'HTML::Parser' => '0',
        'XML::LibXML'  => '2',
        'File::Slurp'  => '0',
     },
