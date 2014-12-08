@@ -6,6 +6,7 @@ use warnings;
 use parent qw(TAP::Formatter::Console);
 
 use XML::LibXML;
+use Encode qw(is_utf8 decode);
 use HTML::Entities qw(encode_entities);
 use Cwd ();
 use File::Path ();
@@ -88,6 +89,7 @@ sub _save_results {
         my $testcase_name = $result->description();
 
         # clean up invalid characters
+        $testcase_name = decode("UTF-8", $testcase_name) unless is_utf8($testcase_name);
         $testcase_name = encode_entities($testcase_name);
 
         # trim trailing/leading space
