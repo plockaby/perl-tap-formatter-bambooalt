@@ -1,4 +1,6 @@
 *.t linguist-language=Perl
 *.pl linguist-language=Perl
 *.pm linguist-language=Perl
+*.test linguist-detectable=false
+*.expect linguist-detectable=false
 t/internal_tests/* linguist-detectable=false
